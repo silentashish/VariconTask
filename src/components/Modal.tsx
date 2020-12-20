@@ -1,7 +1,9 @@
 import React from "react";
 
 const Modal = (props: any) => {
-  const { closeModal } = props;
+  const { closeModal, index, type, NewsData, HeadingData } = props;
+  console.log(closeModal, index, type, NewsData, HeadingData);
+
   return (
     <>
       <div
@@ -10,10 +12,21 @@ const Modal = (props: any) => {
       >
         <div className="relative w-auto my-6 mx-auto max-w-3xl">
           {/*content*/}
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none w-80  md:w-600px">
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none w-80  md:w-600px overflow-hidden">
             {/*header*/}
+            {type === 0 && (
+              <img
+                src={NewsData[index].image}
+                alt="headline-img"
+                className="w-full h-full object-cover object-center"
+              />
+            )}
             <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
-              <h3 className="text-3xl font-semibold">News Title</h3>
+              <h3 className="text-3xl font-semibold">
+                {type === 0
+                  ? NewsData[index].title
+                  : HeadingData[index].titleRed}
+              </h3>
               <button
                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                 onClick={() => closeModal(false)}
@@ -26,7 +39,9 @@ const Modal = (props: any) => {
             {/*body*/}
             <div className="relative p-6 flex-auto">
               <p className="my-4 text-gray-600 text-lg leading-relaxed">
-                News Detail here
+                {type === 0
+                  ? NewsData[index].detail + "\n" + NewsData[index].continue
+                  : HeadingData[index].title}
               </p>
             </div>
             {/*footer*/}

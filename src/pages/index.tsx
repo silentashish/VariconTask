@@ -20,15 +20,20 @@ const Home = () => {
   const loading = data ? data.loading : true;
   const { WeatherData, NewsData, HeadingData }: any = data ? data.data : {};
 
+  // modal handling
   const [showModal, setShowModal] = useState(false);
-
-  const handleOpenModal = () => {
+  const handleOpenModal = (index: number, type: number) => {
+    setModalItem(index);
+    setType(type);
     setShowModal(true);
   };
-
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  // modal data
+  const [modalItem, setModalItem] = useState(0);
+  const [type, setType] = useState(0);
 
   if (loading)
     return (
@@ -119,7 +124,7 @@ const Home = () => {
           <div className="w-full lg:w-6/12 px-3">
             <div
               className="flex flex-wrap md:flex-row-reverse -mx-2 bg-gray-100 py-4 cursor-pointer"
-              onClick={() => handleOpenModal()}
+              onClick={() => handleOpenModal(0, 0)}
             >
               <div className="w-full md:w-3/5 px-2  h-52">
                 <img
@@ -144,7 +149,7 @@ const Home = () => {
             <div className="flex flex-wrap -mx-3 ">
               <div
                 className="w-full md:w-3/5 px-3 bg-gray-100 mb-4 md:mb-0 py-4 md:py-0 cursor-pointer"
-                onClick={() => handleOpenModal()}
+                onClick={() => handleOpenModal(1, 0)}
               >
                 <div className="w-full h-52">
                   <img
@@ -166,7 +171,7 @@ const Home = () => {
               <div className="w-full md:w-2/5 px-3 cursor-pointer">
                 <div
                   className="cursor-pointer"
-                  onClick={() => handleOpenModal()}
+                  onClick={() => handleOpenModal(2, 0)}
                 >
                   <div className="w-full h-40">
                     <img
@@ -183,12 +188,12 @@ const Home = () => {
                 </div>
                 <div
                   className="cursor-pointer"
-                  onClick={() => handleOpenModal()}
+                  onClick={() => handleOpenModal(0, 1)}
                 >
                   <ShortNews
                     titleRed={HeadingData[0].titleRed}
                     title={HeadingData[0].title}
-                    onClick={() => handleOpenModal()}
+                    onClick={() => handleOpenModal(0, 1)}
                   />
                 </div>
               </div>
@@ -199,7 +204,7 @@ const Home = () => {
           <div className="w-full lg:w-3/12 px-3 mt-4 lg:mt-0">
             <div
               className="px-2 py-4  bg-gray-100 cursor-pointer"
-              onClick={() => handleOpenModal()}
+              onClick={() => handleOpenModal(3, 0)}
             >
               <div className="w-full h-40 mb-2">
                 <img
@@ -209,26 +214,32 @@ const Home = () => {
                 />
               </div>
               <h1 className="font-serif font-bold text-3xl text-red-500 mb-2">
-                {NewsData[0].title}
+                {NewsData[3].title}
               </h1>
               <h6 className="text-gray-800 font-serif font-medium text-lg mb-4">
-                {NewsData[0].detail}
+                {NewsData[3].detail}
               </h6>
               <p className="text-gray-800 font-seriff font-normal text-base">
-                {NewsData[0].continue}
+                {NewsData[3].continue}
               </p>
             </div>
-            <div className="cursor-pointer" onClick={() => handleOpenModal()}>
+            <div
+              className="cursor-pointer"
+              onClick={() => handleOpenModal(1, 1)}
+            >
               <ShortNews
                 titleRed={HeadingData[1].titleRed}
                 title={HeadingData[1].title}
               />
             </div>
-            <div className="cursor-pointer" onClick={() => handleOpenModal()}>
+            <div
+              className="cursor-pointer"
+              onClick={() => handleOpenModal(2, 1)}
+            >
               <ShortNews
                 titleRed={HeadingData[2].titleRed}
                 title={HeadingData[2].title}
-                onClick={() => handleOpenModal()}
+                onClick={() => handleOpenModal(2, 1)}
               />
             </div>
           </div>
@@ -236,7 +247,15 @@ const Home = () => {
         </div>
       </div>
       {/* Modal */}
-      {showModal && <Modal closeModal={handleCloseModal} />}
+      {showModal && (
+        <Modal
+          closeModal={handleCloseModal}
+          index={modalItem}
+          type={type}
+          NewsData={NewsData}
+          HeadingData={HeadingData}
+        />
+      )}
     </>
   );
 };
