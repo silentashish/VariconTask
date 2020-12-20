@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloud, faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../components/Modal";
-import { WeatherData, NewsData, HeadingData } from "../data";
+import { useDispatch, useSelector } from "react-redux";
+import { GetDataApi } from "../redux/actions";
 
 const Home = () => {
+  // using redux to fetch data from mockup api
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(GetDataApi());
+  }, []);
+
+  // getting state from redux
+  const data = useSelector((state: any) => state);
+  console.log(data);
+  const loading = data ? data.loading : true;
+  const { WeatherData, NewsData, HeadingData }: any = data ? data.data : {};
+
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -14,6 +27,8 @@ const Home = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  if (loading) return <h1>Checking this loading</h1>;
 
   return (
     <>
