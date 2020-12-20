@@ -4,6 +4,8 @@ import { faCloud, faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../components/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { GetDataApi } from "../redux/actions";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 
 const Home = () => {
   // using redux to fetch data from mockup api
@@ -28,7 +30,18 @@ const Home = () => {
     setShowModal(false);
   };
 
-  if (loading) return <h1>Checking this loading</h1>;
+  if (loading)
+    return (
+      <div className="w-screen flex items-center justify-center h-screen">
+        <Loader
+          className="self-center flex"
+          type="Rings"
+          color="#00BFFF"
+          height={100}
+          width={100}
+        />
+      </div>
+    );
 
   return (
     <>
